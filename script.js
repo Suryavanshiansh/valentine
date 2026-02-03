@@ -7,6 +7,7 @@ const buttonsContainer = document.querySelector('.buttons-container');
 // Track the current size multiplier for the Yes button
 let yesSizeMultiplier = 1;
 let isMoving = false;
+let hasMovedOnce = false; // Track if button has moved at least once
 
 // Detect if device is mobile
 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -63,11 +64,16 @@ function moveNoButton(e) {
     if (isMoving) return;
     isMoving = true;
     
+    // Add 'moving' class to change to fixed positioning
+    if (!hasMovedOnce) {
+        noBtn.classList.add('moving');
+        hasMovedOnce = true;
+    }
+    
     const position = getRandomPosition();
     const size = getRandomSize();
     
-    // Apply random position
-    noBtn.style.position = 'fixed';
+    // Apply random position (only works after 'moving' class is added)
     noBtn.style.left = position.x + 'px';
     noBtn.style.top = position.y + 'px';
     
@@ -174,13 +180,14 @@ function closeModal() {
     yesBtn.style.transform = 'scale(1)';
     noBtn.textContent = 'No';
     noBtn.style.background = 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)';
+    noBtn.style.transform = '';
+    noBtn.style.padding = '';
+    hasMovedOnce = false;
     
-    // Reset No button position
-    setTimeout(() => {
-        const initialPos = getRandomPosition();
-        noBtn.style.left = initialPos.x + 'px';
-        noBtn.style.top = initialPos.y + 'px';
-    }, 100);
+    // Remove moving class to reset to default position
+    noBtn.classList.remove('moving');
+    noBtn.style.left = '';
+    noBtn.style.top = '';
 }
 
 // Confetti effect function - optimized for mobile
@@ -226,33 +233,28 @@ function createConfetti() {
     }
 }
 
-// Initialize - set initial random position for No button
-window.addEventListener('load', () => {
-    // Give the No button an initial position after a short delay
-    setTimeout(() => {
-        const initialPos = getRandomPosition();
-        noBtn.style.position = 'fixed';
-        noBtn.style.left = initialPos.x + 'px';
-        noBtn.style.top = initialPos.y + 'px';
-    }, 100);
-});
-
 // Handle orientation change on mobile
 window.addEventListener('orientationchange', () => {
-    setTimeout(() => {
-        const newPos = getRandomPosition();
-        noBtn.style.left = newPos.x + 'px';
-        noBtn.style.top = newPos.y + 'px';
-    }, 200);
+    // Only reposition if button has already moved
+    if (hasMovedOnce) {
+        setTimeout(() => {
+            const newPos = getRandomPosition();
+            noBtn.style.left = newPos.x + 'px';
+            noBtn.style.top = newPos.y + 'px';
+        }, 200);
+    }
 });
 
 // Handle window resize
 let resizeTimer;
 window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-        const newPos = getRandomPosition();
-        noBtn.style.left = newPos.x + 'px';
-        noBtn.style.top = newPos.y + 'px';
-    }, 250);
+    // Only reposition if button has already moved
+    if (hasMovedOnce) {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            const newPos = getRandomPosition();
+            noBtn.style.left = newPos.x + 'px';
+            noBtn.style.top = newPos.y + 'px';
+        }, 250);
+    }
 });
