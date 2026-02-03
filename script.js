@@ -14,40 +14,47 @@ const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/
 
 // Function to get random position within the viewport
 function getRandomPosition() {
-    const btnRect = noBtn.getBoundingClientRect();
-    
     // Get viewport dimensions
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
     
-    // Add padding to keep button away from edges
-    const padding = 20;
-    const buttonWidth = btnRect.width;
-    const buttonHeight = btnRect.height;
+    // Estimate max button dimensions (accounting for scaling and padding)
+    // We use generous estimates to ensure button never goes outside
+    const maxButtonWidth = 300; // generous estimate for scaled button
+    const maxButtonHeight = 150;
     
-    // Calculate safe boundaries
-    const maxX = viewportWidth - buttonWidth - padding;
-    const maxY = viewportHeight - buttonHeight - padding;
+    // Add generous padding to keep button well within viewport
+    const padding = 30;
+    
+    // Calculate safe boundaries with extra margin
+    const minX = padding;
+    const minY = padding;
+    const maxX = viewportWidth - maxButtonWidth - padding;
+    const maxY = viewportHeight - maxButtonHeight - padding;
+    
+    // Ensure we have valid boundaries
+    const safeMaxX = Math.max(minX + 50, maxX);
+    const safeMaxY = Math.max(minY + 50, maxY);
     
     // Generate random positions within safe boundaries
-    const randomX = Math.random() * (maxX - padding) + padding;
-    const randomY = Math.random() * (maxY - padding) + padding;
+    const randomX = Math.random() * (safeMaxX - minX) + minX;
+    const randomY = Math.random() * (safeMaxY - minY) + minY;
     
     return { 
-        x: Math.max(padding, Math.min(randomX, maxX)), 
-        y: Math.max(padding, Math.min(randomY, maxY))
+        x: Math.max(minX, Math.min(randomX, safeMaxX)), 
+        y: Math.max(minY, Math.min(randomY, safeMaxY))
     };
 }
 
 // Function to get random size
 function getRandomSize() {
-    // Random size between 0.6x and 1.6x of original for mobile, slightly smaller range
-    const minSize = isMobile ? 0.7 : 0.6;
-    const maxSize = isMobile ? 1.4 : 1.8;
+    // Reduced size variation to keep button within safe bounds
+    const minSize = isMobile ? 0.8 : 0.7;
+    const maxSize = isMobile ? 1.2 : 1.3;
     const randomSize = Math.random() * (maxSize - minSize) + minSize;
     
-    // Random padding
-    const randomPadding = isMobile ? Math.floor(Math.random() * 25) + 12 : Math.floor(Math.random() * 40) + 10;
+    // Moderate padding variation
+    const randomPadding = isMobile ? Math.floor(Math.random() * 20) + 12 : Math.floor(Math.random() * 25) + 12;
     
     return { scale: randomSize, padding: randomPadding };
 }
