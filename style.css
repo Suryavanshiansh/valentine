@@ -1,0 +1,268 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Add your background image - uncomment and update path */
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("/pummy.jpeg");
+    background-size: cover;
+    background-position: center;
+    opacity: 0.3;
+    z-index: 0;
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 20px;
+}
+
+.content {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 60px 50px;
+    border-radius: 30px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    animation: fadeIn 0.8s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.title {
+    font-size: 2.5em;
+    color: #e91e63;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.hearts-decoration {
+    font-size: 2em;
+    margin: 20px 0;
+}
+
+.heart {
+    display: inline-block;
+    margin: 0 10px;
+    animation: float 3s ease-in-out infinite;
+}
+
+.heart:nth-child(2) {
+    animation-delay: 0.5s;
+}
+
+.heart:nth-child(3) {
+    animation-delay: 1s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+.buttons-container {
+    margin-top: 40px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    min-height: 100px;
+    position: relative;
+}
+
+.btn {
+    padding: 15px 40px;
+    font-size: 1.3em;
+    font-weight: bold;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.yes-btn {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    animation: grow 0.5s ease-in-out;
+}
+
+@keyframes grow {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.yes-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 20px rgba(245, 87, 108, 0.4);
+}
+
+.no-btn {
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    color: #666;
+    position: absolute;
+    transition: all 0.2s ease;
+}
+
+.no-btn:hover {
+    transform: scale(0.95);
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    margin: 15% auto;
+    padding: 50px;
+    border-radius: 30px;
+    width: 80%;
+    max-width: 500px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    animation: bounceIn 0.6s ease;
+}
+
+@keyframes bounceIn {
+    0% {
+        transform: scale(0.3);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    70% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.modal-content h2 {
+    font-size: 3em;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content p {
+    font-size: 1.5em;
+    margin-bottom: 30px;
+}
+
+.celebration {
+    font-size: 3em;
+}
+
+.emoji {
+    display: inline-block;
+    margin: 0 10px;
+    animation: bounce 1s ease infinite;
+}
+
+.emoji:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.emoji:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+.emoji:nth-child(4) {
+    animation-delay: 0.6s;
+}
+
+.emoji:nth-child(5) {
+    animation-delay: 0.8s;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .title {
+        font-size: 1.8em;
+    }
+    
+    .content {
+        padding: 40px 30px;
+    }
+    
+    .btn {
+        padding: 12px 30px;
+        font-size: 1.1em;
+    }
+    
+    .modal-content {
+        padding: 40px 30px;
+    }
+}
